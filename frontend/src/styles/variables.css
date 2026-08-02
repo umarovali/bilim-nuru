@@ -1,0 +1,251 @@
+:root {
+  /* Colors — taken directly from the Bilim Nuru crest: deep navy ink + warm gold leaf */
+  --navy-900: #131d35;
+  --navy-800: #182644;
+  --navy-700: #223259;
+  --navy-600: #2d4173;
+  --gold-600: #a9863f;
+  --gold-500: #c6a05c;
+  --gold-400: #d9bd85;
+  --gold-100: #f3e9d6;
+  --cream: #f8f5ef;
+  --white: #ffffff;
+  --ink: #1c2331;
+  --muted: #6b7280;
+  --muted-light: #9aa1b0;
+  --border: #e7e1d4;
+  --success: #2f7a4f;
+  --danger: #b13a3a;
+
+  /* Typography */
+  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Layout */
+  --container-width: 1180px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+  --shadow-soft: 0 10px 30px -12px rgba(19, 29, 53, 0.18);
+  --shadow-card: 0 4px 18px rgba(19, 29, 53, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  margin: 0;
+  color: var(--navy-900);
+  font-weight: 500;
+}
+
+p {
+  margin: 0;
+  line-height: 1.65;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-600);
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.eyebrow::before {
+  content: '';
+  width: 22px;
+  height: 1px;
+  background: var(--gold-600);
+  display: inline-block;
+}
+
+.section {
+  padding: 96px 0;
+}
+
+.section-header {
+  max-width: 640px;
+  margin-bottom: 52px;
+}
+
+.section-header.centered {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.section-title {
+  font-size: clamp(28px, 4vw, 40px);
+}
+
+.section-subtitle {
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 17px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 15px;
+  border: 1px solid transparent;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background: var(--navy-900);
+  color: var(--white);
+}
+
+.btn-primary:hover {
+  background: var(--navy-800);
+  box-shadow: var(--shadow-soft);
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold-500), var(--gold-600));
+  color: var(--navy-900);
+}
+
+.btn-gold:hover {
+  box-shadow: 0 10px 24px -10px rgba(198, 160, 92, 0.6);
+}
+
+.btn-outline {
+  background: transparent;
+  border-color: var(--navy-900);
+  color: var(--navy-900);
+}
+
+.btn-outline:hover {
+  background: var(--navy-900);
+  color: var(--white);
+}
+
+.btn-outline.on-dark {
+  border-color: rgba(255, 255, 255, 0.4);
+  color: var(--white);
+}
+
+.btn-outline.on-dark:hover {
+  background: var(--white);
+  color: var(--navy-900);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.card {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.form-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy-800);
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select {
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  font-family: var(--font-body);
+  font-size: 15px;
+  background: var(--white);
+  color: var(--ink);
+}
+
+.form-field input:focus,
+.form-field textarea:focus,
+.form-field select:focus {
+  outline: 2px solid var(--gold-500);
+  outline-offset: 1px;
+}
+
+.form-success {
+  background: var(--gold-100);
+  border: 1px solid var(--gold-400);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  text-align: center;
+}
+
+.form-success h4 {
+  margin-bottom: 8px;
+}
+
+.divider-feather {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto 40px;
+  opacity: 0.55;
+}
+
+@media (max-width: 860px) {
+  .section {
+    padding: 64px 0;
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "nav": {
+    "home": "Bosh sahifa",
+    "about": "Biz haqimizda",
+    "courses": "Kurslar",
+    "blogs": "Bloglar",
+    "teachers": "O'qituvchilar",
+    "reviews": "Fikrlar",
+    "contacts": "Aloqa"
+  },
+  "header": {
+    "callUs": "Qo'ng'iroq qilish",
+    "menu": "Menyu"
+  },
+  "hero": {
+    "eyebrow": "O'quv markazi",
+    "title": "Bilim Nuru",
+    "subtitle": "Kelajakka yo'l ochadigan bilim. Sifatli kurslar, tajribali o'qituvchilar, shahringizdagi ikkita filial.",
+    "cta": "Kurslarni ko'rish",
+    "ctaSecondary": "Ariza qoldirish",
+    "statStudents": "o'quvchi",
+    "statCourses": "kurs",
+    "statTeachers": "o'qituvchi",
+    "statYears": "yillik tajriba"
+  },
+  "about": {
+    "eyebrow": "Markaz haqida",
+    "title": "Biz haqimizda",
+    "defaultText": "Bilim Nuru — bu har bir o'quvchiga individual yondashuv, sifatli bilim va tajribali o'qituvchilar yordami beriladigan zamonaviy o'quv markazi."
+  },
+  "courses": {
+    "eyebrow": "Ta'lim",
+    "title": "Bizning kurslarimiz",
+    "subtitle": "Yo'nalishni tanlang va bugundan boshlab o'qishni boshlang",
+    "duration": "Davomiyligi",
+    "price": "Narxi",
+    "empty": "Kurslar tez orada qo'shiladi",
+    "more": "Batafsil"
+  },
+  "blogs": {
+    "eyebrow": "Yangiliklar",
+    "title": "Blog",
+    "subtitle": "O'quv markazining foydali maqolalari va yangiliklari",
+    "readMore": "To'liq o'qish",
+    "empty": "Hozircha maqolalar yo'q",
+    "back": "Blogga qaytish"
+  },
+  "teachers": {
+    "eyebrow": "Jamoa",
+    "title": "Bizning o'qituvchilarimiz",
+    "subtitle": "Ko'p yillik tajribaga ega bo'lgan kasb mutaxassislari",
+    "empty": "O'qituvchilar haqida ma'lumot tez orada qo'shiladi"
+  },
+  "reviews": {
+    "eyebrow": "Fikrlar",
+    "title": "O'quvchilarimizning fikrlari",
+    "subtitle": "Talabalarning fikri — bizning ishimizning eng yaxshi bahosi",
+    "leaveReview": "Fikr qoldirish",
+    "formName": "Ismingiz",
+    "formText": "Sizning fikringiz",
+    "formRating": "Baho",
+    "formBranch": "Filial (majburiy emas)",
+    "formSubmit": "Fikrni yuborish",
+    "formSubmitting": "Yuborilmoqda...",
+    "thankYouTitle": "Rahmat!",
+    "thankYouText": "Fikringiz yuborildi, moderator tekshirgandan so'ng saytda paydo bo'ladi.",
+    "empty": "Hozircha fikrlar yo'q. Birinchi bo'ling!",
+    "close": "Yopish"
+  },
+  "contacts": {
+    "eyebrow": "Biz bilan aloqa",
+    "title": "Aloqa",
+    "subtitle": "Qulay usulda bog'laning yoki ariza qoldiring",
+    "chooseBranch": "Filialni tanlang",
+    "address": "Manzil",
+    "phone": "Telefon",
+    "workHours": "Ish vaqti",
+    "formName": "Ism",
+    "formPhone": "Telefon",
+    "formEmail": "Email",
+    "formMessage": "Xabar",
+    "formSubmit": "Arizani yuborish",
+    "formSubmitting": "Yuborilmoqda...",
+    "formSuccessTitle": "Ariza yuborildi!",
+    "formSuccessText": "Rahmat, biz siz bilan tez orada bog'lanamiz."
+  },
+  "footer": {
+    "quickLinks": "Tezkor havolalar",
+    "contactsTitle": "Aloqa",
+    "followUs": "Ijtimoiy tarmoqlarda",
+    "rights": "Barcha huquqlar himoyalangan."
+  },
+  "common": {
+    "loading": "Yuklanmoqda...",
+    "error": "Xatolik yuz berdi. Qayta urinib ko'ring.",
+    "required": "Majburiy maydon",
+    "close": "Yopish"
+  },
+  "admin": {
+    "loginTitle": "Boshqaruv paneliga kirish",
+    "username": "Login",
+    "password": "Parol",
+    "login": "Kirish",
+    "loginError": "Login yoki parol noto'g'ri",
+    "logout": "Chiqish",
+    "dashboard": "Boshqaruv paneli",
+    "menuCourses": "Kurslar",
+    "menuBlogs": "Bloglar",
+    "menuTeachers": "O'qituvchilar",
+    "menuReviews": "Fikrlar",
+    "menuContacts": "Arizalar",
+    "menuBranches": "Filiallar",
+    "menuAbout": "Biz haqimizda",
+    "menuSettings": "Sayt sozlamalari",
+    "add": "Qo'shish",
+    "edit": "Tahrirlash",
+    "delete": "O'chirish",
+    "save": "Saqlash",
+    "cancel": "Bekor qilish",
+    "confirmDelete": "Haqiqatan ham buni o'chirmoqchimisiz?",
+    "statusPending": "Tekshirilmoqda",
+    "statusApproved": "Tasdiqlandi",
+    "statusRejected": "Rad etildi",
+    "approve": "Tasdiqlash",
+    "reject": "Rad etish",
+    "markRead": "O'qildi",
+    "noData": "Ma'lumot yo'q",
+    "active": "Faol",
+    "inactive": "Yashirin",
+    "backToSite": "Saytga qaytish"
+  }
+}

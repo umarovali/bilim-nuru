@@ -1,0 +1,132 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About Us",
+    "courses": "Courses",
+    "blogs": "Blog",
+    "teachers": "Teachers",
+    "reviews": "Reviews",
+    "contacts": "Contacts"
+  },
+  "header": {
+    "callUs": "Call Us",
+    "menu": "Menu"
+  },
+  "hero": {
+    "eyebrow": "Education Center",
+    "title": "Bilim Nuru",
+    "subtitle": "Knowledge that opens the way to the future. Quality courses, experienced teachers, two branches in your city.",
+    "cta": "View Courses",
+    "ctaSecondary": "Leave a Request",
+    "statStudents": "students",
+    "statCourses": "courses",
+    "statTeachers": "teachers",
+    "statYears": "years of experience"
+  },
+  "about": {
+    "eyebrow": "About the Center",
+    "title": "About Us",
+    "defaultText": "Bilim Nuru is a modern education center where every student gets an individual approach, quality knowledge, and the support of experienced teachers on the way to their goal."
+  },
+  "courses": {
+    "eyebrow": "Learning",
+    "title": "Our Courses",
+    "subtitle": "Choose a direction and start learning today",
+    "duration": "Duration",
+    "price": "Price",
+    "empty": "Courses coming soon",
+    "more": "Learn more"
+  },
+  "blogs": {
+    "eyebrow": "News",
+    "title": "Blog",
+    "subtitle": "Useful articles and news from the education center",
+    "readMore": "Read more",
+    "empty": "No articles yet",
+    "back": "Back to blog"
+  },
+  "teachers": {
+    "eyebrow": "Team",
+    "title": "Our Teachers",
+    "subtitle": "Professionals with years of experience",
+    "empty": "Teacher information coming soon"
+  },
+  "reviews": {
+    "eyebrow": "Reviews",
+    "title": "Reviews from our students",
+    "subtitle": "Our students' opinions are the best measure of our work",
+    "leaveReview": "Leave a Review",
+    "formName": "Your name",
+    "formText": "Your review",
+    "formRating": "Rating",
+    "formBranch": "Branch (optional)",
+    "formSubmit": "Submit Review",
+    "formSubmitting": "Submitting...",
+    "thankYouTitle": "Thank you!",
+    "thankYouText": "Your review has been submitted and will appear on the site after moderator approval.",
+    "empty": "No reviews yet. Be the first!",
+    "close": "Close"
+  },
+  "contacts": {
+    "eyebrow": "Get in Touch",
+    "title": "Contacts",
+    "subtitle": "Reach us in a convenient way or leave a request",
+    "chooseBranch": "Choose a branch",
+    "address": "Address",
+    "phone": "Phone",
+    "workHours": "Working hours",
+    "formName": "Name",
+    "formPhone": "Phone",
+    "formEmail": "Email",
+    "formMessage": "Message",
+    "formSubmit": "Send Request",
+    "formSubmitting": "Sending...",
+    "formSuccessTitle": "Request sent!",
+    "formSuccessText": "Thank you, we will contact you soon."
+  },
+  "footer": {
+    "quickLinks": "Quick Links",
+    "contactsTitle": "Contacts",
+    "followUs": "Follow Us",
+    "rights": "All rights reserved."
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong. Please try again.",
+    "required": "Required field",
+    "close": "Close"
+  },
+  "admin": {
+    "loginTitle": "Admin Panel Login",
+    "username": "Username",
+    "password": "Password",
+    "login": "Log In",
+    "loginError": "Invalid username or password",
+    "logout": "Log Out",
+    "dashboard": "Dashboard",
+    "menuCourses": "Courses",
+    "menuBlogs": "Blog",
+    "menuTeachers": "Teachers",
+    "menuReviews": "Reviews",
+    "menuContacts": "Requests",
+    "menuBranches": "Branches",
+    "menuAbout": "About Us",
+    "menuSettings": "Site Settings",
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirmDelete": "Are you sure you want to delete this?",
+    "statusPending": "Pending",
+    "statusApproved": "Approved",
+    "statusRejected": "Rejected",
+    "approve": "Approve",
+    "reject": "Reject",
+    "markRead": "Mark as read",
+    "noData": "No data",
+    "active": "Active",
+    "inactive": "Hidden",
+    "backToSite": "Back to site"
+  }
+}
