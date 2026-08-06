@@ -5,7 +5,6 @@ export type Lang = 'kg' | 'ru' | 'uz' | 'en';
 
 export const LANGUAGES: { code: Lang; label: string }[] = [
   { code: 'kg', label: 'KG' },
-  { code: 'ru', label: 'RUS' },
   { code: 'uz', label: 'UZB' },
   { code: 'en', label: 'EN' },
 ];
