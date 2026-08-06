@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useLanguage, LANGUAGES } from '../context/LanguageContext';
 
 const MENU = [
-  { key: 'menuCourses', path: '/admin/courses' },
+  { key: 'menuCourses', path: '/admin' },
   { key: 'menuBlogs', path: '/admin/blogs' },
   { key: 'menuTeachers', path: '/admin/teachers' },
   { key: 'menuReviews', path: '/admin/reviews' },

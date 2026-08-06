@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 
-export type Lang = 'kg' | 'ru' | 'uz' | 'en';
+export type Lang = 'kg' | 'uz' | 'en';
 
 export const LANGUAGES: { code: Lang; label: string }[] = [
   { code: 'kg', label: 'KG' },

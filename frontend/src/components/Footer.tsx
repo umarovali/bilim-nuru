@@ -1,16 +1,17 @@
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import api from '../api/api';
-import { SiteSettings } from '../api/types';
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import api from "../api/api";
+import { SiteSettings } from "../api/types";
+import { FaInstagram, FaFacebookF, FaWhatsapp } from "react-icons/fa";
 
 const NAV_ITEMS = [
-  { key: 'home', href: '#home' },
-  { key: 'about', href: '#about' },
-  { key: 'courses', href: '#courses' },
-  { key: 'blogs', href: '#blogs' },
-  { key: 'teachers', href: '#teachers' },
-  { key: 'reviews', href: '#reviews' },
-  { key: 'contacts', href: '#contacts' },
+  { key: "home", href: "#home" },
+  { key: "about", href: "#about" },
+  { key: "courses", href: "#courses" },
+  { key: "blogs", href: "#blogs" },
+  { key: "teachers", href: "#teachers" },
+  { key: "reviews", href: "#reviews" },
+  { key: "contacts", href: "#contacts" },
 ];
 
 export default function Footer() {
@@ -19,7 +20,7 @@ export default function Footer() {
 
   useEffect(() => {
     api
-      .get('/settings')
+      .get("/settings")
       .then((res) => setSettings(res.data))
       .catch(() => setSettings(null));
   }, []);
@@ -29,22 +30,24 @@ export default function Footer() {
       <div className="container site-footer__grid">
         <div className="site-footer__brand">
           <span className="site-footer__logo">Билим Нуру</span>
-          <p>{t('hero.subtitle')}</p>
-          {(settings?.instagram || settings?.facebook || settings?.whatsapp) && (
+          <p>{t("hero.subtitle")}</p>
+          {(settings?.instagram ||
+            settings?.facebook ||
+            settings?.whatsapp) && (
             <div className="site-footer__social">
               {settings?.instagram && (
                 <a href={settings.instagram} target="_blank" rel="noreferrer">
-                  Instagram
+                  <FaInstagram /> Instagram
                 </a>
               )}
               {settings?.facebook && (
                 <a href={settings.facebook} target="_blank" rel="noreferrer">
-                  Facebook
+                  <FaFacebookF /> Facebook
                 </a>
               )}
               {settings?.whatsapp && (
                 <a href={settings.whatsapp} target="_blank" rel="noreferrer">
-                  WhatsApp
+                  <FaWhatsapp /> WhatsApp
                 </a>
               )}
             </div>
@@ -52,7 +55,7 @@ export default function Footer() {
         </div>
 
         <div className="site-footer__col">
-          <h5>{t('footer.quickLinks')}</h5>
+          <h5>{t("footer.quickLinks")}</h5>
           <ul>
             {NAV_ITEMS.map((item) => (
               <li key={item.key}>
@@ -63,11 +66,13 @@ export default function Footer() {
         </div>
 
         <div className="site-footer__col">
-          <h5>{t('footer.contactsTitle')}</h5>
+          <h5>{t("footer.contactsTitle")}</h5>
           <ul>
             {settings?.phone && (
               <li>
-                <a href={`tel:${settings.phone.replace(/\s/g, '')}`}>{settings.phone}</a>
+                <a href={`tel:${settings.phone.replace(/\s/g, "")}`}>
+                  {settings.phone}
+                </a>
               </li>
             )}
             {settings?.email && (
@@ -82,7 +87,9 @@ export default function Footer() {
 
       <div className="site-footer__bottom">
         <div className="container">
-          <span>© {new Date().getFullYear()} Билим Нуру. {t('footer.rights')}</span>
+          <span>
+            © {new Date().getFullYear()} Билим Нуру. {t("footer.rights")}
+          </span>
         </div>
       </div>
     </footer>

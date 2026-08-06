@@ -32,7 +32,7 @@ export default function App() {
                 </ProtectedRoute>
               }
             >
-              <Route path="courses" element={<AdminCourses />} />
+              <Route path="" element={<AdminCourses />} />
               <Route path="blogs" element={<AdminBlogs />} />
               <Route path="teachers" element={<AdminTeachers />} />
               <Route path="reviews" element={<AdminReviews />} />

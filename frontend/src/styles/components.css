@@ -708,16 +708,33 @@
 
 .site-footer__social {
   display: flex;
-  gap: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
   margin-top: 18px;
 }
 
 .site-footer__social a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-size: 13px;
   font-weight: 700;
   color: var(--gold-400);
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
 }
 
+.site-footer__social a svg {
+  font-size: 15px;
+}
+
+.site-footer__social a:hover {
+  background: var(--gold-500);
+  border-color: var(--gold-500);
+  color: var(--navy-900);
+}
 .site-footer__col h5 {
   color: var(--white);
   font-family: var(--font-body);
@@ -879,5 +896,14 @@
   .site-header__logo img {
     width: 45px;
     height: 45px;
+  }
+
+  .site-footer__social {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .site-footer__social a {
+    width: fit-content;
   }
 }
