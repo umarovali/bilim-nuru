@@ -1,6 +1,6 @@
 import { FormEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import api from '../api/api';
 
 export default function AdminLogin() {
@@ -11,6 +11,11 @@ export default function AdminLogin() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const token = localStorage.getItem('bn_admin_token');
+  if (token) {
+    return <Navigate to="/admin" replace />;
+  }
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
@@ -18,7 +23,7 @@ export default function AdminLogin() {
     try {
       const res = await api.post('/auth/login', { username, password });
       localStorage.setItem('bn_admin_token', res.data.access_token);
-      navigate('/admin/courses');
+      navigate('/admin');
     } catch {
       setError(t('admin.loginError'));
     } finally {

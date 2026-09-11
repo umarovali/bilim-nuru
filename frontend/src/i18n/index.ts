@@ -15,8 +15,8 @@ i18n.use(initReactI18next).init({
     uz: { translation: uz },
     en: { translation: en },
   },
-  lng: savedLang || 'kg', // Default language: Kyrgyz
-  fallbackLng: 'kg',
+  lng: savedLang || 'ru', 
+  fallbackLng: 'ru',
   interpolation: {
     escapeValue: false,
   },
