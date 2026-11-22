@@ -1,75 +1,245 @@
-import { useEffect, useState } from 'react';
+// https://app.curator.io/organize
+
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import api from '../api/api';
-import { Blog } from '../api/types';
-import CardCarousel from './CardCarousel';
+
+const PROFILE_URL = 'https://www.instagram.com/bilimnuru.academy/';
+const FEED_URL =
+  'https://api.curator.io/v1.3/feeds/54435e0c-a74d-4039-9b3b-14e2640013da/posts?limit=6&hasPoweredBy=true';
+
+type InstagramPost = {
+  id: number;
+  url: string;
+  image?: string;
+  image_large?: string;
+  thumbnail?: string;
+  video?: string;
+  source_created_at?: string;
+};
+
+type FeedState =
+  | { status: 'loading' }
+  | { status: 'error' }
+  | { status: 'ready'; posts: InstagramPost[] };
 
 export default function Blogs() {
-  const { t } = useTranslation();
-  const [blogs, setBlogs] = useState<Blog[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [openBlog, setOpenBlog] = useState<Blog | null>(null);
+  const { t, i18n } = useTranslation();
+  const language = i18n.resolvedLanguage || i18n.language || 'en';
+  const dateFormat = new Intl.DateTimeFormat(language, {
+    day: 'numeric',
+    month: 'long',
+  });
+
+  const trackRef = useRef<HTMLUListElement>(null);
+  const [feed, setFeed] = useState<FeedState>({ status: 'loading' });
+  const [canGoBack, setCanGoBack] = useState(false);
+  const [canGoForward, setCanGoForward] = useState(false);
+
+  const posts = feed.status === 'ready' ? feed.posts : [];
+  const postCount = posts.length;
 
   useEffect(() => {
-    api
-      .get('/blogs')
-      .then((res) => setBlogs(res.data))
-      .catch(() => setBlogs([]))
-      .finally(() => setLoading(false));
+    const controller = new AbortController();
+
+    async function loadPosts() {
+      try {
+        const response = await fetch(FEED_URL, { signal: controller.signal });
+        if (!response.ok) throw new Error(`Curator HTTP ${response.status}`);
+
+        const result: { data?: InstagramPost[] } = await response.json();
+        if (!Array.isArray(result.data)) throw new Error('Invalid Curator response');
+
+        if (!controller.signal.aborted) {
+          setFeed({ status: 'ready', posts: result.data.slice(0, 6) });
+        }
+      } catch {
+        if (!controller.signal.aborted) setFeed({ status: 'error' });
+      }
+    }
+
+    void loadPosts();
+    return () => controller.abort();
   }, []);
 
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    const updateArrows = () => {
+      const scrollEnd = track.scrollWidth - track.clientWidth;
+
+      setCanGoBack(track.scrollLeft > 2);
+      setCanGoForward(track.scrollLeft < scrollEnd - 2);
+    };
+
+    const resizeObserver = new ResizeObserver(updateArrows);
+    resizeObserver.observe(track);
+    track.addEventListener('scroll', updateArrows, { passive: true });
+    updateArrows();
+
+    return () => {
+      resizeObserver.disconnect();
+      track.removeEventListener('scroll', updateArrows);
+    };
+  }, [postCount]);
+
+  function moveTrack(direction: -1 | 1) {
+    const track = trackRef.current;
+    const firstCard = track?.children.item(0);
+    const secondCard = track?.children.item(1);
+
+    if (!track || !firstCard || !secondCard) return;
+
+    const cardStep =
+      secondCard.getBoundingClientRect().left - firstCard.getBoundingClientRect().left;
+    const visibleCards = Number(getComputedStyle(track).getPropertyValue('--visible-cards'));
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    track.scrollBy({
+      left: direction * cardStep * visibleCards,
+      behavior: reduceMotion ? 'auto' : 'smooth',
+    });
+  }
+
   return (
-    <section id="blogs" className="section blogs">
+    <section
+      id="blogs"
+      className="section instagram-feed"
+      aria-labelledby="instagram-title"
+      lang={language}
+    >
       <div className="container">
-        <div className="section-header centered">
-          <span className="eyebrow">{t('blogs.eyebrow')}</span>
-          <h2 className="section-title">{t('blogs.title')}</h2>
-          <p className="section-subtitle">{t('blogs.subtitle')}</p>
-        </div>
+        <div className="instagram-feed__panel">
+          <header className="instagram-feed__header">
+            <div>
+              <span className="instagram-feed__handle">@bilimnuru.academy</span>
+              <h2 id="instagram-title">{t('instagram.title')}</h2>
+            </div>
 
-        {!loading && blogs.length === 0 && <p className="empty-state">{t('blogs.empty')}</p>}
+            {postCount > 1 && (
+              <div className="instagram-feed__controls">
+                <button
+                  type="button"
+                  aria-label={t('instagram.previous')}
+                  aria-controls="instagram-track"
+                  disabled={!canGoBack}
+                  onClick={() => moveTrack(-1)}
+                >
+                  <span aria-hidden="true">←</span>
+                </button>
+                <button
+                  type="button"
+                  aria-label={t('instagram.next')}
+                  aria-controls="instagram-track"
+                  disabled={!canGoForward}
+                  onClick={() => moveTrack(1)}
+                >
+                  <span aria-hidden="true">→</span>
+                </button>
+              </div>
+            )}
+          </header>
 
-        {blogs.length > 0 && (
-          <CardCarousel slidesDesktop={3} slidesTablet={2}>
-            {blogs.map((blog) => (
-              <article key={blog._id} className="blog-card">
-                <div className="blog-card__image">
-                  {blog.coverImage ? (
-                    <img src={blog.coverImage} alt={blog.title} />
-                  ) : (
-                    <div className="blog-card__image-placeholder" />
-                  )}
-                </div>
-                <div className="blog-card__body">
-                  {blog.publishedAt && (
-                    <time className="blog-card__date">
-                      {new Date(blog.publishedAt).toLocaleDateString()}
-                    </time>
-                  )}
-                  <h3>{blog.title}</h3>
-                  <p>{blog.excerpt}</p>
-                  <button className="blog-card__link" onClick={() => setOpenBlog(blog)}>
-                    {t('blogs.readMore')} →
-                  </button>
-                </div>
-              </article>
-            ))}
-          </CardCarousel>
-        )}
-      </div>
+          {feed.status === 'loading' && (
+            <p className="instagram-feed__status" role="status">
+              {t('instagram.loading')}
+            </p>
+          )}
 
-      {openBlog && (
-        <div className="modal-overlay" onClick={() => setOpenBlog(null)}>
-          <div className="modal" onClick={(e) => e.stopPropagation()}>
-            <button className="modal__close" onClick={() => setOpenBlog(null)}>
-              ×
-            </button>
-            {openBlog.coverImage && <img src={openBlog.coverImage} alt={openBlog.title} className="modal__image" />}
-            <h3>{openBlog.title}</h3>
-            <p className="modal__content-text">{openBlog.content}</p>
+          {feed.status === 'error' && (
+            <p className="instagram-feed__status" role="status">
+              {t('instagram.error')}
+            </p>
+          )}
+
+          {feed.status === 'ready' && postCount === 0 && (
+            <p className="instagram-feed__status" role="status">
+              {t('instagram.empty')}
+            </p>
+          )}
+
+          {postCount > 0 && (
+            <ul
+              id="instagram-track"
+              ref={trackRef}
+              className="instagram-feed__track"
+              aria-label={t('instagram.feedLabel')}
+              tabIndex={0}
+              onKeyDown={(event) => {
+                if (event.target !== event.currentTarget) return;
+
+                if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+                  event.preventDefault();
+                  moveTrack(event.key === 'ArrowLeft' ? -1 : 1);
+                }
+              }}
+            >
+              {posts.map((post, index) => {
+                const image = post.image_large || post.image || post.thumbnail;
+                const date = post.source_created_at
+                  ? new Date(post.source_created_at)
+                  : null;
+                const number = index + 1;
+
+                return (
+                  <li key={post.id} className="instagram-feed__card">
+                    <div className="instagram-feed__media">
+                      {post.video ? (
+                        <video
+                          src={post.video}
+                          poster={post.thumbnail || image}
+                          controls
+                          playsInline
+                          preload="none"
+                          aria-label={t('instagram.videoLabel', { number })}
+                        />
+                      ) : image ? (
+                        <a
+                          href={post.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={t('instagram.postLabel', { number })}
+                        >
+                          <img src={image} alt="" loading="lazy" decoding="async" />
+                        </a>
+                      ) : null}
+                    </div>
+
+                    <a
+                      className="instagram-feed__post-link"
+                      href={post.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={t('instagram.postLabel', { number })}
+                    >
+                      <span>
+                        {date && Number.isFinite(date.getTime()) && (
+                          <time dateTime={date.toISOString()}>
+                            {dateFormat.format(date)}
+                          </time>
+                        )}
+                        {t('instagram.openPost')}
+                      </span>
+                      <span className="instagram-feed__external" aria-hidden="true">↗</span>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+
+          <div className="instagram-feed__footer">
+            <a
+              className="instagram-feed__profile"
+              href={PROFILE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {t('instagram.openProfile')} <span aria-hidden="true">↗</span>
+            </a>
           </div>
         </div>
-      )}
+      </div>
     </section>
   );
 }

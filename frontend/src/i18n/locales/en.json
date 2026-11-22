@@ -37,13 +37,18 @@
     "empty": "Courses coming soon",
     "more": "Learn more"
   },
-  "blogs": {
-    "eyebrow": "News",
-    "title": "Blog",
-    "subtitle": "Useful articles and news from the education center",
-    "readMore": "Read more",
-    "empty": "No articles yet",
-    "back": "Back to blog"
+  "instagram": {
+    "title": "Find us on Instagram",
+    "previous": "Previous posts",
+    "next": "Next posts",
+    "loading": "Loading Instagram posts…",
+    "error": "We couldn’t load the posts. You can view them on our Instagram profile.",
+    "empty": "New posts will appear here.",
+    "feedLabel": "Latest Instagram posts",
+    "videoLabel": "Video from post {{number}}",
+    "postLabel": "Open post {{number}} on Instagram",
+    "openPost": "View post",
+    "openProfile": "Visit us on Instagram"
   },
   "teachers": {
     "eyebrow": "Team",
