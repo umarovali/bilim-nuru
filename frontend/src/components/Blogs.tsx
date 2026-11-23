@@ -1,11 +1,11 @@
 // https://app.curator.io/organize
 
-import { useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
-const PROFILE_URL = 'https://www.instagram.com/bilimnuru.academy/';
+const PROFILE_URL = "https://www.instagram.com/bilimnuru.academy/";
 const FEED_URL =
-  'https://api.curator.io/v1.3/feeds/54435e0c-a74d-4039-9b3b-14e2640013da/posts?limit=6&hasPoweredBy=true';
+  "https://api.curator.io/v1.3/feeds/54435e0c-a74d-4039-9b3b-14e2640013da/posts?limit=6&hasPoweredBy=true";
 
 type InstagramPost = {
   id: number;
@@ -18,24 +18,65 @@ type InstagramPost = {
 };
 
 type FeedState =
-  | { status: 'loading' }
-  | { status: 'error' }
-  | { status: 'ready'; posts: InstagramPost[] };
+  | { status: "loading" }
+  | { status: "error" }
+  | { status: "ready"; posts: InstagramPost[] };
+
+const lastGlowPaint = new WeakMap<HTMLVideoElement, number>();
+
+function paintVideoGlow(video: HTMLVideoElement, force = false) {
+  if (video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA || video.seeking)
+    return;
+
+  const now = performance.now();
+  if (
+    !force &&
+    (now - (lastGlowPaint.get(video) ?? -Infinity) < 250 ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+  )
+    return;
+
+  const canvas = video
+    .closest(".instagram-feed__card")
+    ?.querySelector<HTMLCanvasElement>(".instagram-feed__glow");
+  const context = canvas?.getContext("2d");
+  if (!canvas || !context) return;
+
+  context.drawImage(video, 0, 0, canvas.width, canvas.height);
+  lastGlowPaint.set(video, now);
+}
+
+function refreshVideoGlow(video: HTMLVideoElement) {
+  const paint = () => paintVideoGlow(video, true);
+  window.requestAnimationFrame(paint);
+  video.requestVideoFrameCallback?.(paint);
+}
+
+function resetVideoGlow(video: HTMLVideoElement) {
+  lastGlowPaint.delete(video);
+
+  const canvas = video
+    .closest(".instagram-feed__card")
+    ?.querySelector<HTMLCanvasElement>(".instagram-feed__glow");
+
+  if (canvas)
+    canvas.getContext("2d")?.clearRect(0, 0, canvas.width, canvas.height);
+}
 
 export default function Blogs() {
   const { t, i18n } = useTranslation();
-  const language = i18n.resolvedLanguage || i18n.language || 'en';
+  const language = i18n.resolvedLanguage || i18n.language || "en";
   const dateFormat = new Intl.DateTimeFormat(language, {
-    day: 'numeric',
-    month: 'long',
+    day: "numeric",
+    month: "long",
   });
 
   const trackRef = useRef<HTMLUListElement>(null);
-  const [feed, setFeed] = useState<FeedState>({ status: 'loading' });
+  const [feed, setFeed] = useState<FeedState>({ status: "loading" });
   const [canGoBack, setCanGoBack] = useState(false);
   const [canGoForward, setCanGoForward] = useState(false);
 
-  const posts = feed.status === 'ready' ? feed.posts : [];
+  const posts = feed.status === "ready" ? feed.posts : [];
   const postCount = posts.length;
 
   useEffect(() => {
@@ -47,13 +88,14 @@ export default function Blogs() {
         if (!response.ok) throw new Error(`Curator HTTP ${response.status}`);
 
         const result: { data?: InstagramPost[] } = await response.json();
-        if (!Array.isArray(result.data)) throw new Error('Invalid Curator response');
+        if (!Array.isArray(result.data))
+          throw new Error("Invalid Curator response");
 
         if (!controller.signal.aborted) {
-          setFeed({ status: 'ready', posts: result.data.slice(0, 6) });
+          setFeed({ status: "ready", posts: result.data.slice(0, 6) });
         }
       } catch {
-        if (!controller.signal.aborted) setFeed({ status: 'error' });
+        if (!controller.signal.aborted) setFeed({ status: "error" });
       }
     }
 
@@ -74,12 +116,12 @@ export default function Blogs() {
 
     const resizeObserver = new ResizeObserver(updateArrows);
     resizeObserver.observe(track);
-    track.addEventListener('scroll', updateArrows, { passive: true });
+    track.addEventListener("scroll", updateArrows, { passive: true });
     updateArrows();
 
     return () => {
       resizeObserver.disconnect();
-      track.removeEventListener('scroll', updateArrows);
+      track.removeEventListener("scroll", updateArrows);
     };
   }, [postCount]);
 
@@ -91,13 +133,18 @@ export default function Blogs() {
     if (!track || !firstCard || !secondCard) return;
 
     const cardStep =
-      secondCard.getBoundingClientRect().left - firstCard.getBoundingClientRect().left;
-    const visibleCards = Number(getComputedStyle(track).getPropertyValue('--visible-cards'));
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      secondCard.getBoundingClientRect().left -
+      firstCard.getBoundingClientRect().left;
+    const visibleCards = Number(
+      getComputedStyle(track).getPropertyValue("--visible-cards"),
+    );
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
 
     track.scrollBy({
       left: direction * cardStep * visibleCards,
-      behavior: reduceMotion ? 'auto' : 'smooth',
+      behavior: reduceMotion ? "auto" : "smooth",
     });
   }
 
@@ -113,14 +160,14 @@ export default function Blogs() {
           <header className="instagram-feed__header">
             <div>
               <span className="instagram-feed__handle">@bilimnuru.academy</span>
-              <h2 id="instagram-title">{t('instagram.title')}</h2>
+              <h2 id="instagram-title">{t("instagram.title")}</h2>
             </div>
 
             {postCount > 1 && (
               <div className="instagram-feed__controls">
                 <button
                   type="button"
-                  aria-label={t('instagram.previous')}
+                  aria-label={t("instagram.previous")}
                   aria-controls="instagram-track"
                   disabled={!canGoBack}
                   onClick={() => moveTrack(-1)}
@@ -129,7 +176,7 @@ export default function Blogs() {
                 </button>
                 <button
                   type="button"
-                  aria-label={t('instagram.next')}
+                  aria-label={t("instagram.next")}
                   aria-controls="instagram-track"
                   disabled={!canGoForward}
                   onClick={() => moveTrack(1)}
@@ -140,21 +187,21 @@ export default function Blogs() {
             )}
           </header>
 
-          {feed.status === 'loading' && (
+          {feed.status === "loading" && (
             <p className="instagram-feed__status" role="status">
-              {t('instagram.loading')}
+              {t("instagram.loading")}
             </p>
           )}
 
-          {feed.status === 'error' && (
+          {feed.status === "error" && (
             <p className="instagram-feed__status" role="status">
-              {t('instagram.error')}
+              {t("instagram.error")}
             </p>
           )}
 
-          {feed.status === 'ready' && postCount === 0 && (
+          {feed.status === "ready" && postCount === 0 && (
             <p className="instagram-feed__status" role="status">
-              {t('instagram.empty')}
+              {t("instagram.empty")}
             </p>
           )}
 
@@ -163,19 +210,20 @@ export default function Blogs() {
               id="instagram-track"
               ref={trackRef}
               className="instagram-feed__track"
-              aria-label={t('instagram.feedLabel')}
+              aria-label={t("instagram.feedLabel")}
               tabIndex={0}
               onKeyDown={(event) => {
                 if (event.target !== event.currentTarget) return;
 
-                if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+                if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
                   event.preventDefault();
-                  moveTrack(event.key === 'ArrowLeft' ? -1 : 1);
+                  moveTrack(event.key === "ArrowLeft" ? -1 : 1);
                 }
               }}
             >
               {posts.map((post, index) => {
                 const image = post.image_large || post.image || post.thumbnail;
+                const poster = post.thumbnail || image;
                 const date = post.source_created_at
                   ? new Date(post.source_created_at)
                   : null;
@@ -187,20 +235,37 @@ export default function Blogs() {
                       {post.video ? (
                         <video
                           src={post.video}
-                          poster={post.thumbnail || image}
+                          poster={poster}
                           controls
                           playsInline
                           preload="none"
-                          aria-label={t('instagram.videoLabel', { number })}
+                          aria-label={t("instagram.videoLabel", { number })}
+                          onLoadedData={(event) =>
+                            refreshVideoGlow(event.currentTarget)
+                          }
+                          onSeeked={(event) =>
+                            refreshVideoGlow(event.currentTarget)
+                          }
+                          onTimeUpdate={(event) =>
+                            paintVideoGlow(event.currentTarget)
+                          }
+                          onEmptied={(event) =>
+                            resetVideoGlow(event.currentTarget)
+                          }
                         />
                       ) : image ? (
                         <a
                           href={post.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          aria-label={t('instagram.postLabel', { number })}
+                          aria-label={t("instagram.postLabel", { number })}
                         >
-                          <img src={image} alt="" loading="lazy" decoding="async" />
+                          <img
+                            src={image}
+                            alt=""
+                            loading="lazy"
+                            decoding="async"
+                          />
                         </a>
                       ) : null}
                     </div>
@@ -210,7 +275,7 @@ export default function Blogs() {
                       href={post.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-label={t('instagram.postLabel', { number })}
+                      aria-label={t("instagram.postLabel", { number })}
                     >
                       <span>
                         {date && Number.isFinite(date.getTime()) && (
@@ -218,9 +283,14 @@ export default function Blogs() {
                             {dateFormat.format(date)}
                           </time>
                         )}
-                        {t('instagram.openPost')}
+                        {t("instagram.openPost")}
                       </span>
-                      <span className="instagram-feed__external" aria-hidden="true">↗</span>
+                      <span
+                        className="instagram-feed__external"
+                        aria-hidden="true"
+                      >
+                        ↗
+                      </span>
                     </a>
                   </li>
                 );
@@ -235,7 +305,7 @@ export default function Blogs() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              {t('instagram.openProfile')} <span aria-hidden="true">↗</span>
+              {t("instagram.openProfile")} <span aria-hidden="true">↗</span>
             </a>
           </div>
         </div>
